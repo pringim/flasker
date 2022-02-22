@@ -1,17 +1,24 @@
-<h1>Hello World from Index.html !!</h1>
+{% extends 'base.html' %}
 
-<p>This is my first webpage !!!</p>
 
-<p>My name is {{ first_name}}</p>
+{% block content %}
 
-<p>{{stuff|safe}}</p>
 
-<h3>Fav Foods are :</h3>
+	<h1>Hello World from Index.html !!</h1>
 
-{% for items in fav_food %}
+	<p>This is my first webpage !!!</p>
 
-	{{items}}<br/>
+	<p>My name is {{ first_name}}</p>
 
-{% endfor %}
+	<p>{{stuff|safe}}</p>
 
-{{ fav_food.3 + 77 }}
+	<h3>Fav Foods are :</h3>
+
+		{% for items in fav_food %}
+
+			{{items}}<br/>
+
+		{% endfor %}
+
+
+{% endblock %}
