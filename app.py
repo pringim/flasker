@@ -207,24 +207,30 @@ def get_current_date():
 
 
 @app.route('/delete/<int:id>')
+#@login_required
 def delete(id):
-	user_to_delete = Users.query.get_or_404(id)
-	name = None
-	form = UserForm()
-	try:
-		db.session.delete(user_to_delete)
+	if id == current_user.id:
+		user_to_delete = Users.query.get_or_404(id)
+		name = None
+		form = UserForm()
+		try:
+			db.session.delete(user_to_delete)
 
-		db.session.commit()
-		flash("User Deleted Successfully !! ")
-		our_users = Users.query.order_by(Users.date_added)
-		#return render_template("add_user.html", form=form,
-		#name=name, our_users=our_users)
+			db.session.commit()
+			flash("User Deleted Successfully !! ")
+			our_users = Users.query.order_by(Users.date_added)
+			#return render_template("add_user.html", form=form,
+			#name=name, our_users=our_users)
 
-	except:
-		flash('Whoops ! There was a probelm deleting User, try again..')
-		#return render_template("add_user.html", form=form,
-		#name=name, our_users=our_users)
-	return render_template("add_user.html", form=form, name=name, our_users=our_users)
+		except:
+			flash('Whoops ! There was a probelm deleting User, try again..')
+			#return render_template("add_user.html", form=form,
+			#name=name, our_users=our_users)
+		return render_template("add_user.html", form=form, name=name, our_users=our_users)
+	else:
+		flash('Whoops ! You are Not Authorised to Delete User:')
+		return redirect(url_for('dashboard'))
+
 
 # Update Database Record
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
