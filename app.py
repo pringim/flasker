@@ -27,7 +27,7 @@ ckeditor = CKEditor(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:pringim1@localhost/our_users'
 
 # Deploy app with Postgres d/b on Heroku -- config
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://yfmgihlkltyvde:937716bc15f1e617504cca605a56e99af98c82bbb30947a60d731efb926f6e71@ec2-44-199-52-133.compute-1.amazonaws.com:5432/d18dtpgektsbrp'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xoqjxusuzouppa:1bfc2bd398ec1974a82cc42dea12bb39f6d02edeabd94d4568cc1b7eb05bebf4@ec2-35-175-68-90.compute-1.amazonaws.com:5432/da7jodr6lnljvc'
 
 app.config['SECRET_KEY'] = "sirob"
 
