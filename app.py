@@ -244,31 +244,41 @@ def update(id):
 			name_to_update.favorite_color = request.form['favorite_color']
 			name_to_update.username = request.form['username']
 			name_to_update.about_author = request.form['about_author']
-			name_to_update.profile_pic = request.files['profile_pic']
 
-			# Grab Image filename
-			pic_filename = secure_filename(name_to_update.profile_pic.filename)
-			# Set UUID
-			pic_name = str(uuid.uuid1()) + "_" + pic_filename
-			# Save The Image
-			saver = request.files['profile_pic']
-			name_to_update.profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER']), pic_name)
-			# Change to string to save to db
-			name_to_update.profile_pic = pic_name
+			# Check for profile pic
+			if request.files['profile_pic']:
+				name_to_update.profile_pic = request.files['profile_pic']
 
-			try:
+				# Grab Image filename
+				pic_filename = secure_filename(name_to_update.profile_pic.filename)
+				# Set UUID
+				pic_name = str(uuid.uuid1()) + "_" + pic_filename
+				# Save The Image
+				saver = request.files['profile_pic']
+
+				# Change to string to save to db
+				name_to_update.profile_pic = pic_name
+
+				try:
+					db.session.commit()
+					saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+					flash("User Updated Successfully !")
+					return render_template("dashboard.html", form=form,
+						name_to_update=name_to_update)
+				except:
+					flash("Error with Update..try again !")
+					return render_template("dashboard.html", form=form,
+						name_to_update=name_to_update)
+			else:
 				db.session.commit()
-				saver.save(os.path.join(app.config['UPLOAD_FOLDER']), pic_name)
 				flash("User Updated Successfully !")
-				return render_template("update.html", form=form,
-					name_to_update=name_to_update, id=id)
-			except:
-				flash("Error with Update..try again !")
-				return render_template("update.html", form=form,
-					name_to_update=name_to_update, id=id)
+				return render_template("dashboard.html", form=form,
+									   name_to_update=name_to_update)
 	else:
 			return render_template("update.html", form=form,
 				name_to_update=name_to_update, id=id )
+
+	return render_template('dashboard.html')
 
 # Create a route decorator
 @app.route('/user/add', methods=['GET', 'POST'])
