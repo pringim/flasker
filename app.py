@@ -27,7 +27,9 @@ ckeditor = CKEditor(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:pringim1@localhost/our_users'
 
 # Deploy app with Postgres d/b on Heroku -- config
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xoqjxusuzouppa:1bfc2bd398ec1974a82cc42dea12bb39f6d02edeabd94d4568cc1b7eb05bebf4@ec2-35-175-68-90.compute-1.amazonaws.com:5432/da7jodr6lnljvc'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://jgwmfpicttlirs:486868aafdfe2ef06f8770ca20d725029168b9015340b0054a1e75c49b180b3c@ec2-3-228-222-169.compute-1.amazonaws.com:5432/ddt8p6j5ahm29v'
+
+#'//xoqjxusuzouppa:1bfc2bd398ec1974a82cc42dea12bb39f6d02edeabd94d4568cc1b7eb05bebf4@ec2-35-175-68-90.compute-1.amazonaws.com:5432/da7jodr6lnljvc'
 
 app.config['SECRET_KEY'] = "sirob"
 
@@ -117,7 +119,7 @@ def dashboard():
 def delete_post(id):
 	post_to_delete = Posts.query.get_or_404(id)
 	id = current_user.id
-	if id == post_to_delete.poster.id:
+	if id == post_to_delete.poster.id or id == 3:
 		try:
 			db.session.delete(post_to_delete)
 			db.session.commit()
@@ -164,7 +166,7 @@ def edit_post(id):
 		return redirect(url_for('post', id=post.id))
 		#return redirect(url_for('posts', posts=posts))
 
-	if current_user.id == post.poster.id:
+	if current_user.id == post.poster.id or current_user.id == 3:
 		form.title.data = post.title
 		# form.author.data = post.author
 		form.slug.data = post.slug
